@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#11141e">
+<title>Вместе — семейный бюджет</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #11141e;
+  --card: #202536;
+  --field: #2b3248;
+  --muted: #a4adc8;
+  --accent: #bfadff;
+  --green: #86dfbd;
+  --red: #ffa5b5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #f4f4ff;
+  font: 15px/1.5 system-ui, sans-serif;
+}
+
+button, input, select, textarea { font: inherit; }
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+  border: 0;
+  color: inherit;
+}
+
+button:disabled { opacity: .45; }
+[hidden] { display: none !important; }
+
+.app {
+  max-width: 600px;
+  margin: auto;
+  padding: 22px 16px;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.logo {
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo span { color: var(--accent); }
+small, .note { color: var(--muted); }
+
+.note {
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+h2 { font-size: 19px; margin: 23px 0 13px; }
+h3 { font-size: 17px; margin: 0 0 12px; }
+
+.card {
+  background: var(--card);
+  padding: 19px;
+  border-radius: 21px;
+  margin: 14px 0;
+}
+
+.hero {
+  background: linear-gradient(125deg, #d3baff, #a9aff6, #9ac7df);
+  padding: 24px;
+  border-radius: 25px;
+  color: #29223e;
+}
+
+.hero small { color: #4d4565; }
+
+.hero strong {
+  display: block;
+  font-size: clamp(28px, 8vw, 42px);
+  margin: 8px 0;
+  letter-spacing: -1px;
+  overflow-wrap: anywhere;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.stats .card {
+  margin: 0;
+  padding: 16px;
+  min-width: 0;
+}
+
+.stats b {
+  display: block;
+  font-size: clamp(16px, 4.7vw, 23px);
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+
+.green { color: var(--green); }
+.red { color: var(--red); }
+
+.primary, .secondary {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 650;
+}
+
+.primary {
+  background: var(--accent);
+  color: #29223e;
+}
+
+.secondary {
+  background: var(--field);
+  margin-top: 10px;
+}
+
+.danger { color: var(--red); }
+
+.icon {
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  font-size: 23px;
+  background: var(--card);
+}
+
+.month {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.month b { text-transform: capitalize; }
+
+input, select, textarea {
+  width: 100%;
+  background: var(--field);
+  color: #fff;
+  border: 1px solid #48516a;
+  border-radius: 12px;
+  padding: 12px;
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin: 13px 0 5px;
+}
+
+.tools { display: flex; gap: 8px; margin-top: 15px; }
+.tools input { flex: 1; min-width: 0; }
+.tools select { width: 115px; }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  background: none;
+  text-align: left;
+  padding: 15px 0;
+  border-bottom: 1px solid #ffffff0c;
+}
+
+.row:last-child { border: 0; }
+
+.main { flex: 1; min-width: 0; }
+
+.main b, .main small {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.main b { font-size: 14px; }
+.main small { font-size: 11px; }
+
+.sum {
+  text-align: right;
+  max-width: 48%;
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.sum small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.check {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+
+.bought b {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.more {
+  background: none;
+  color: var(--muted);
+  font-size: 25px;
+  padding: 5px 9px;
+}
+
+.empty {
+  text-align: center;
+  padding: 22px 6px;
+  color: var(--muted);
+}
+
+.empty b {
+  display: block;
+  color: #fff;
+  margin-bottom: 7px;
+}
+
+.ring {
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 8px auto 22px;
+}
+
+.hole {
+  width: 109px;
+  height: 109px;
+  border-radius: 50%;
+  background: var(--card);
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.hole b { font-size: 25px; }
+.hole small { font-size: 11px; }
+
+.category { margin-top: 14px; }
+
+.category-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.category-top span:last-child { text-align: right; }
+
+.track {
+  height: 6px;
+  background: var(--field);
+  border-radius: 10px;
+  margin-top: 7px;
+  overflow: hidden;
+}
+
+.track i { display: block; height: 100%; }
+
+.notice {
+  background: #493d2e;
+  color: #ffdfad;
+  padding: 13px;
+  border-radius: 14px;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.error {
+  font-size: 12px;
+  color: var(--red);
+  min-height: 20px;
+  margin: 13px 0;
+}
+
+.foot {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 24px;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 600px);
+  display: flex;
+  background: #191e2bf5;
+  border-top: 1px solid #343c52;
+  padding: 9px 5px calc(9px + env(safe-area-inset-bottom));
+}
+
+nav button {
+  flex: 1;
+  background: none;
+  color: var(--muted);
+  padding: 6px;
+  border-radius: 12px;
+  font-size: 11px;
+}
+
+nav button span { display: block; font-size: 23px; }
+
+nav .active {
+  background: #bfadff12;
+  color: var(--accent);
+}
+
+dialog {
+  width: min(94vw, 470px);
+  max-height: 88dvh;
+  overflow: auto;
+  padding: 22px;
+  background: var(--card);
+  color: #fff;
+  border: 1px solid #48516a;
+  border-radius: 23px;
+}
+
+dialog::backdrop { background: #080b14ce; }
+
+.dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-head h2 { margin: 0; }
+.dialog-head button { background: none; font-size: 26px; }
+
+.toast {
+  position: fixed;
+  bottom: calc(95px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 92vw;
+  width: max-content;
+  padding: 12px 17px;
+  background: #eee8ff;
+  color: #29213e;
+  border-radius: 14px;
+  font-size: 13px;
+  z-index: 30;
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+  <header>
+    <div>
+      <div class="logo">вместе<span>●</span></div>
+      <small id="status">Семейный бюджет и покупки</small>
+    </div>
+    <button id="familyButton" class="icon"
+            aria-label="Настройки семьи">⚙</button>
+  </header>
+
+  <div id="notice" class="notice" hidden></div>
+
+  <section id="welcome">
+    <div class="hero">
+      <strong>Общие планы.<br>Общий бюджет.</strong>
+      <small>Одно пространство для двух телефонов.</small>
+    </div>
+
+    <div class="card">
+      <h3 id="welcomeTitle">Создать пространство</h3>
+      <p class="note" id="welcomeText">
+        Введите имя. Затем пригласите жену или мужа
+        через раздел «Семья».
+      </p>
+
+      <label for="name">Ваше имя</label>
+      <input id="name" maxlength="30" autocomplete="given-name"
+             placeholder="Как к вам обращаться?">
+
+      <p id="welcomeError" class="error" role="alert"></p>
+
+      <button id="start" class="primary">
+        Создать и подключиться
+      </button>
+    </div>
+  </section>
+
+  <div id="workspace" hidden>
+    <section id="budget">
+      <div class="month">
+        <button id="prev" class="icon"
+                aria-label="Предыдущий месяц">‹</button>
+        <b id="monthTitle"></b>
+        <button id="next" class="icon"
+                aria-label="Следующий месяц">›</button>
+      </div>
+
+      <div class="hero">
+        <small>Семейный баланс · за всё время</small>
+        <strong id="balance"></strong>
+        <small>Доходы минус расходы</small>
+      </div>
+
+      <div class="stats">
+        <div class="card">
+          <small>Доходы за месяц</small>
+          <b id="income" class="green"></b>
+        </div>
+        <div class="card">
+          <small>Расходы за месяц</small>
+          <b id="expense" class="red"></b>
+        </div>
+      </div>
+
+      <button id="addOperation" class="primary">
+        ＋ Добавить операцию
+      </button>
+
+      <h2>Куда уходят деньги</h2>
+      <div id="chart" class="card"></div>
+
+      <h2>История за месяц</h2>
+
+      <div class="tools">
+        <input id="search" type="search"
+               placeholder="Поиск" aria-label="Поиск операций">
+        <select id="filter" aria-label="Тип операций">
+          <option value="all">Все</option>
+          <option value="expense">Расходы</option>
+          <option value="income">Доходы</option>
+        </select>
+      </div>
+
+      <div id="ledger" class="card"></div>
+    </section>
+
+    <section id="shopping" hidden>
+      <h2>Общий список покупок</h2>
+      <p class="note">
+        Отметка «куплено» видна на обоих телефонах.
+        В расходы покупка автоматически не записывается.
+      </p>
+
+      <button id="addItem" class="primary">
+        ＋ Добавить покупку
+      </button>
+
+      <p id="itemCount" class="note"></p>
+      <div id="items" class="card"></div>
+    </section>
+
+    <section id="family" hidden>
+      <h2>Ваша семья</h2>
+
+      <div class="card">
+        <h3>Пригласить второго участника</h3>
+        <p class="note">
+          Ссылка даёт доступ к семейным записям.
+          Отправляйте её только близкому человеку.
+          Для открытия на iPhone приложение должно
+          находиться на сайте с HTTPS.
+        </p>
+        <button id="invite" class="primary">
+          Получить приглашение
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>Ваше имя</h3>
+        <input id="profile" maxlength="30" aria-label="Ваше имя">
+        <button id="saveName" class="secondary">
+          Сохранить имя
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>Резервные копии</h3>
+        <button id="export" class="secondary">
+          Показать копию текстом
+        </button>
+        <button id="import" class="secondary">
+          Добавить записи из копии
+        </button>
+        <p class="note">
+          Поддерживаются копии «Вместе», «Потока»
+          и rashody_data.json.
+          Повторный импорт создаёт дубликаты.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Подключение</h3>
+        <p class="note">
+          Для синхронизации нужен интернет.
+          Сохраните приглашение отдельно, чтобы не потерять
+          доступ при очистке браузера.
+        </p>
+        <button id="reconnect" class="secondary">
+          Переподключиться
+        </button>
+        <button id="leave" class="secondary danger">
+          Выйти на этом телефоне
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <p class="foot">Маленькие планы. Большое «мы».</p>
+</main>
+
+<nav id="nav" hidden>
+  <button data-tab="budget" class="active">
+    <span>◔</span>Бюджет
+  </button>
+  <button data-tab="shopping">
+    <span>☑</span>Покупки
+  </button>
+  <button data-tab="family">
+    <span>⚙</span>Семья
+  </button>
+</nav>
+
+<dialog id="editor">
+  <div class="dialog-head">
+    <h2 id="editorTitle"></h2>
+    <button id="closeEditor" aria-label="Закрыть">×</button>
+  </div>
+
+  <form id="form" novalidate>
+    <div id="financeFields">
+      <label for="type">Тип операции</label>
+      <select id="type">
+        <option value="expense">Расход</option>
+        <option value="income">Доход</option>
+      </select>
+
+      <label for="amount">Сумма, ₽</label>
+      <input id="amount" inputmode="decimal" maxlength="20"
+             placeholder="Например, 350,50">
+
+      <label for="category">Категория</label>
+      <select id="category"></select>
+
+      <label for="date">Дата</label>
+      <input id="date" type="date"
+             min="1900-01-01" max="2100-12-31">
+
+      <label for="comment">Комментарий</label>
+      <input id="comment" maxlength="300">
+    </div>
+
+    <div id="shoppingFields" hidden>
+      <label for="product">Название покупки</label>
+      <input id="product" maxlength="120" placeholder="Молоко">
+
+      <label for="quantity">Количество или примечание</label>
+      <input id="quantity" maxlength="100"
+             placeholder="2 упаковки">
+    </div>
+
+    <p id="formError" class="error" role="alert"></p>
+
+    <button id="save" class="primary">Сохранить</button>
+    <button id="delete" type="button"
+            class="secondary danger" hidden>
+      Удалить запись
+    </button>
+  </form>
+</dialog>
+
+<dialog id="textDialog">
+  <div class="dialog-head">
+    <h2 id="textTitle"></h2>
+    <button id="closeText" aria-label="Закрыть">×</button>
+  </div>
+  <p id="textHelp" class="note"></p>
+  <textarea id="textValue" rows="10" spellcheck="false"
+            aria-label="Текст"></textarea>
+  <p id="textError" class="error" role="alert"></p>
+  <button id="textAction" class="primary"></button>
+</dialog>
+
+<dialog id="confirmDialog">
+  <h3 id="confirmTitle"></h3>
+  <p id="confirmText" class="note"></p>
+  <button id="yes" class="primary">Подтвердить</button>
+  <button id="no" class="secondary">Отмена</button>
+</dialog>
+
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script>
+// @ts-nocheck
+"use strict";
+
+const CONFIG = {
+  apiKey: "AIzaSyBZZHF20IYCjGFWsskDPMHWE4DBLBLiMsM",
+  projectId: "test-a19e2",
+  databaseURL:
+    "https://test-a19e2-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+const KEY = "vmeste.connection.v1";
+const $ = id => document.getElementById(id);
+
+const expenseCats = [
+  "Продукты", "Кафе", "Транспорт", "Дом",
+  "Здоровье", "Развлечения", "Покупки", "Другое"
+];
+
+const incomeCats = [
+  "Зарплата", "Подработка", "Подарки", "Проценты", "Другое"
+];
+
+const colors = [
+  "#86dfbd", "#ffbd85", "#91baff", "#bfadff",
+  "#ffa5b5", "#f1d788", "#7edbe7", "#a6afca"
+];
+
+const money = n => new Intl.NumberFormat("ru-RU", {
+  style: "currency",
+  currency: "RUB",
+  maximumFractionDigits: 2
+}).format(n / 100);
+
+function today() {
+  const d = new Date();
+  return [
+    d.getFullYear(),
+    String(d.getMonth() + 1).padStart(2, "0"),
+    String(d.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+let month = today().slice(0, 7);
+let user = null;
+let invitedRoom = null;
+let api = null;
+let db = null;
+let path = "";
+let online = false;
+let loaded = false;
+let busy = false;
+let session = 0;
+let stops = [];
+let state = { ledger: {}, items: {} };
+let editing = null;
+let mode = "ledger";
+let onConfirm = null;
+let onText = null;
+let timer;
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function notify(text) {
+  clearTimeout(timer);
+  $("toast").textContent = text;
+  $("toast").hidden = false;
+  timer = setTimeout(() => $("toast").hidden = true, 4500);
+}
+
+function notice(text) {
+  $("notice").textContent = text;
+  $("notice").hidden = !text;
+}
+
+function validDate(v) {
+  if (
+    typeof v !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(v) ||
+    v < "1900-01-01" ||
+    v > "2100-12-31"
+  ) return false;
+
+  const d = new Date(v + "T12:00:00Z");
+
+  return !Number.isNaN(+d)
+    && d.toISOString().slice(0, 10) === v;
+}
+
+function parseAmount(v) {
+  const s = v.replace(/\s/g, "").replace(",", ".");
+
+  if (!/^\d{1,9}(\.\d{1,2})?$/.test(s)) {
+    throw Error("Введите сумму, например 350,50.");
+  }
+
+  const [a, b = ""] = s.split(".");
+  const n = Number(a) * 100 + Number(b.padEnd(2, "0"));
+
+  if (n < 1) throw Error("Сумма должна быть больше нуля.");
+  return n;
+}
+
+function token() {
+  return [...crypto.getRandomValues(new Uint8Array(16))]
+    .map(n => n.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function remember() {
+  try {
+    localStorage.setItem(
+      KEY, JSON.stringify({ ...user, config: CONFIG })
+    );
+  } catch (e) {
+    notify("Не удалось запомнить вход. Сохраните приглашение отдельно.");
+  }
+}
+
+function rows(kind) {
+  return Object.entries(state[kind] || {})
+    .filter(([, r]) => r && typeof r === "object")
+    .map(([id, r]) => ({ ...r, id }));
+}
+
+function entries() {
+  return rows("ledger").filter(r =>
+    ["income", "expense"].includes(r.type) &&
+    Number.isSafeInteger(r.amount) &&
+    r.amount > 0 &&
+    validDate(r.date) &&
+    typeof r.category === "string"
+  );
+}
+
+function purchases() {
+  return rows("items").filter(r =>
+    typeof r.title === "string" &&
+    typeof r.bought === "boolean"
+  );
+}
+
+function switchTab(tab) {
+  for (const name of ["budget", "shopping", "family"]) {
+    $(name).hidden = name !== tab;
+  }
+
+  document.querySelectorAll("[data-tab]").forEach(b => {
+    b.classList.toggle("active", b.dataset.tab === tab);
+  });
+
+  window.scrollTo(0, 0);
+}
+
+function empty(container, title, text) {
+  const e = el("div", "empty");
+  e.append(el("b", "", title), el("div", "", text));
+  container.append(e);
+}
+
+function render() {
+  const all = entries();
+
+  const list = all
+    .filter(r => r.date.slice(0, 7) === month)
+    .sort((a, b) =>
+      b.date.localeCompare(a.date) || b.id.localeCompare(a.id)
+    );
+
+  $("monthTitle").textContent = new Intl.DateTimeFormat(
+    "ru-RU", { month: "long", year: "numeric" }
+  ).format(new Date(month + "-15T12:00:00"));
+
+  $("balance").textContent = money(all.reduce(
+    (s, r) => s + (r.type === "income" ? r.amount : -r.amount), 0
+  ));
+
+  $("income").textContent = money(list
+    .filter(r => r.type === "income")
+    .reduce((s, r) => s + r.amount, 0));
+
+  $("expense").textContent = money(list
+    .filter(r => r.type === "expense")
+    .reduce((s, r) => s + r.amount, 0));
+
+  const q = $("search").value.trim().toLocaleLowerCase("ru");
+  const type = $("filter").value;
+
+  const filtered = list.filter(r =>
+    (type === "all" || r.type === type) &&
+    `${r.category} ${r.comment || ""} ${r.author || ""}`
+      .toLocaleLowerCase("ru").includes(q)
+  );
+
+  $("ledger").replaceChildren();
+
+  if (!filtered.length) {
+    empty(
+      $("ledger"),
+      "Пока нет записей",
+      "Добавьте операцию или выберите другой месяц."
+    );
+  }
+
+  for (const r of filtered) {
+    const row = el("button", "row");
+    const main = el("span", "main");
+
+    const sum = el(
+      "span",
+      "sum" + (r.type === "income" ? " green" : ""),
+      (r.type === "income" ? "+" : "−") + money(r.amount)
+    );
+
+    main.append(
+      el("b", "", r.category),
+      el("small", "", r.comment || "Без комментария")
+    );
+
+    sum.append(el(
+      "small", "",
+      r.date.split("-").reverse().join(".") +
+      " · " + (r.author || "Семья")
+    ));
+
+    row.append(main, sum);
+    row.onclick = () => openEditor("ledger", r);
+    $("ledger").append(row);
+  }
+
+  drawChart(list);
+  renderItems();
+}
+
+function drawChart(list) {
+  const c = $("chart");
+  c.replaceChildren();
+
+  const totals = new Map();
+
+  for (const r of list.filter(r => r.type === "expense")) {
+    totals.set(r.category, (totals.get(r.category) || 0) + r.amount);
+  }
+
+  const groups = [...totals].sort((a, b) => b[1] - a[1]);
+  const total = groups.reduce((s, r) => s + r[1], 0);
+
+  if (!total) {
+    empty(
+      c, "Расходов пока нет",
+      "После первой записи появится диаграмма."
+    );
+    return;
+  }
+
+  let a = 0;
+  const parts = [];
+
+  groups.forEach(([, n], i) => {
+    const b = a + n / total * 360;
+    parts.push(`${colors[i % colors.length]} ${a}deg ${b}deg`);
+    a = b;
+  });
+
+  const ring = el("div", "ring");
+  const hole = el("div", "hole");
+
+  ring.style.background = `conic-gradient(${parts.join(",")})`;
+
+  hole.append(
+    el("b", "", String(groups.length)),
+    el("small", "", "категорий")
+  );
+
+  ring.append(hole);
+  c.append(ring);
+
+  groups.forEach(([cat, n], i) => {
+    const block = el("div", "category");
+    const head = el("div", "category-top");
+    const track = el("div", "track");
+    const fill = el("i");
+
+    head.append(
+      el("span", "", cat),
+      el(
+        "span", "",
+        `${money(n)} · ${Math.round(n / total * 100)}%`
+      )
+    );
+
+    fill.style.width = n / total * 100 + "%";
+    fill.style.background = colors[i % colors.length];
+
+    track.append(fill);
+    block.append(head, track);
+    c.append(block);
+  });
+}
+
+function renderItems() {
+  const list = purchases().sort((a, b) =>
+    Number(a.bought) - Number(b.bought) ||
+    a.id.localeCompare(b.id)
+  );
+
+  $("items").replaceChildren();
+
+  $("itemCount").textContent =
+    `Осталось купить: ${list.filter(r => !r.bought).length}` +
+    ` · куплено: ${list.filter(r => r.bought).length}`;
+
+  if (!list.length) {
+    empty($("items"), "Список пока пуст", "Добавьте первую покупку.");
+  }
+
+  for (const r of list) {
+    const row = el("div", "row" + (r.bought ? " bought" : ""));
+    const check = el("input", "check");
+    const main = el("div", "main");
+    const more = el("button", "more", "⋯");
+
+    check.type = "checkbox";
+    check.checked = r.bought;
+    check.disabled = !online || !loaded || busy;
+    check.setAttribute("aria-label", "Куплено: " + r.title);
+
+    check.onchange = async () => {
+      const value = check.checked;
+      check.checked = r.bought;
+
+      await write(() => api.update(
+        api.ref(db, path + "/items/" + r.id),
+        { bought: value }
+      ));
+    };
+
+    main.append(
+      el("b", "", r.title),
+      el("small", "", [r.quantity, r.author].filter(Boolean).join(" · "))
+    );
+
+    more.setAttribute("aria-label", "Редактировать " + r.title);
+    more.onclick = () => openEditor("items", r);
+
+    row.append(check, main, more);
+    $("items").append(row);
+  }
+}
+
+function explain(e) {
+  const code = String(e.code || e.message || "");
+
+  if (/operation-not-allowed/.test(code)) {
+    return "В Firebase нужно включить Authentication → Anonymous.";
+  }
+
+  if (/permission.?denied/i.test(code)) {
+    return "Нет доступа. Проверьте Rules в Realtime Database.";
+  }
+
+  if (/api-key|configuration-not-found|invalid-api/i.test(code)) {
+    return "Проверьте конфигурацию Firebase.";
+  }
+
+  return "Нет соединения с Firebase. Проверьте интернет " +
+    "и нажмите «Переподключиться».";
+}
+
+async function sdk() {
+  if (api) return;
+
+  const base = "https://www.gstatic.com/firebasejs/11.10.0/";
+
+  const modules = await Promise.all([
+    import(base + "firebase-app.js"),
+    import(base + "firebase-auth.js"),
+    import(base + "firebase-database.js")
+  ]);
+
+  api = Object.assign({}, ...modules);
+}
+
+function updateStatus() {
+  $("status").textContent = online && loaded
+    ? "● Семейная база подключена"
+    : online ? "Получаем записи…" : "○ Нет связи с базой";
+}
+
+async function connect(person) {
+  const current = ++session;
+
+  stops.forEach(stop => stop());
+  stops = [];
+  online = false;
+  loaded = false;
+  state = { ledger: {}, items: {} };
+
+  $("start").disabled = true;
+  $("welcomeError").textContent = "";
+  $("status").textContent = "Подключаемся…";
+
+  try {
+    await sdk();
+    if (current !== session) return;
+
+    const app = api.getApps().find(a => a.name === "vmeste")
+      || api.initializeApp(CONFIG, "vmeste");
+
+    await api.signInAnonymously(api.getAuth(app));
+    if (current !== session) return;
+
+    db = api.getDatabase(app);
+    user = person;
+    path = "rooms/" + person.room;
+    remember();
+
+    try {
+      history.replaceState(
+        null, "", location.pathname + location.search
+      );
+    } catch (e) {}
+
+    invitedRoom = null;
+
+    $("welcome").hidden = true;
+    $("workspace").hidden = false;
+    $("nav").hidden = false;
+    $("profile").value = person.name;
+
+    notice("Получаем семейные записи…");
+    render();
+
+    stops.push(api.onValue(
+      api.ref(db, ".info/connected"),
+      snapshot => {
+        if (current !== session) return;
+
+        online = snapshot.val() === true;
+        updateStatus();
+
+        notice(
+          online && loaded ? "" :
+          online ? "Получаем семейные записи…" :
+          "Нет связи. Показаны последние полученные данные. " +
+          "Изменения доступны после подключения."
+        );
+
+        renderItems();
+      }
+    ));
+
+    stops.push(api.onValue(
+      api.ref(db, path),
+      snapshot => {
+        if (current !== session) return;
+
+        const value = snapshot.val() || {};
+        state = {
+          ledger: value.ledger || {},
+          items: value.items || {}
+        };
+
+        loaded = true;
+        updateStatus();
+        if (online) notice("");
+        render();
+      },
+      error => {
+        if (current !== session) return;
+        loaded = false;
+        updateStatus();
+        notice(explain(error));
+      }
+    ));
+
+  } catch (e) {
+    if (current !== session) return;
+
+    const message = explain(e);
+    notice(message);
+    $("welcomeError").textContent = message;
+    $("status").textContent = "Не подключено";
+
+  } finally {
+    if (current === session) $("start").disabled = false;
+  }
+}
+
+async function write(action, errorId) {
+  if (!online || !loaded || busy) {
+    notify(busy
+      ? "Дождитесь сохранения."
+      : "Дождитесь подключения к базе.");
+    return false;
+  }
+
+  busy = true;
+  $("save").disabled = true;
+
+  if (errorId) {
+    $(errorId).textContent = "Сохраняем в общей базе…";
+  }
+
+  try {
+    await action();
+    if (errorId) $(errorId).textContent = "";
+    return true;
+
+  } catch (e) {
+    if (errorId) $(errorId).textContent = explain(e);
+    else notify(explain(e));
+    return false;
+
+  } finally {
+    busy = false;
+    $("save").disabled = false;
+    renderItems();
+  }
+}
+
+function canEdit() {
+  if (!online || !loaded || busy) {
+    notify("Для изменений дождитесь подключения к базе.");
+    return false;
+  }
+  return true;
+}
+
+function categories(selected) {
+  const list = [
+    ...($("type").value === "income" ? incomeCats : expenseCats)
+  ];
+
+  if (selected && !list.includes(selected)) list.push(selected);
+
+  $("category").replaceChildren(...list.map(name => {
+    const option = el("option", "", name);
+    option.value = name;
+    return option;
+  }));
+
+  if (selected) $("category").value = selected;
+}
+
+function openEditor(kind, record = null) {
+  if (!canEdit()) return;
+
+  mode = kind;
+  editing = record;
+
+  const shopping = kind === "items";
+
+  $("editorTitle").textContent = shopping
+    ? (record ? "Изменить покупку" : "Новая покупка")
+    : (record ? "Изменить операцию" : "Новая операция");
+
+  $("financeFields").hidden = shopping;
+  $("shoppingFields").hidden = !shopping;
+  $("delete").hidden = !record;
+  $("formError").textContent = "";
+
+  if (shopping) {
+    $("product").value = record ? record.title : "";
+    $("quantity").value = record ? record.quantity : "";
+
+  } else {
+    $("type").value = record ? record.type : "expense";
+    categories(record ? record.category : null);
+
+    $("amount").value = record
+      ? (record.amount / 100).toFixed(2).replace(".", ",") : "";
+
+    $("date").value = record ? record.date : today();
+    $("comment").value = record ? record.comment : "";
+  }
+
+  $("editor").showModal();
+}
+
+function ask(title, text, action) {
+  $("confirmTitle").textContent = title;
+  $("confirmText").textContent = text;
+  onConfirm = action;
+  $("confirmDialog").showModal();
+}
+
+function showText(title, help, value, button, action, readonly = true) {
+  $("textTitle").textContent = title;
+  $("textHelp").textContent = help;
+  $("textValue").value = value;
+  $("textValue").readOnly = readonly;
+  $("textAction").textContent = button;
+  $("textError").textContent = "";
+  onText = action;
+  $("textDialog").showModal();
+}
+
+function selectText() {
+  $("textValue").focus();
+  $("textValue").select();
+  $("textValue").setSelectionRange(0, $("textValue").value.length);
+  notify("Текст выделен. Удерживайте поле и выберите «Копировать».");
+}
+
+function validateImport(payload) {
+  let ledger = [];
+  let items = [];
+
+  if (Array.isArray(payload)) {
+    ledger = payload.map(r => ({ ...r, type: "expense" }));
+
+  } else if (
+    payload && payload.app === "potok" &&
+    payload.version === 1 && Array.isArray(payload.records)
+  ) {
+    ledger = payload.records;
+
+  } else if (
+    payload && payload.app === "vmeste" &&
+    payload.version === 1 &&
+    Array.isArray(payload.ledger) &&
+    Array.isArray(payload.items)
+  ) {
+    ledger = payload.ledger;
+    items = payload.items;
+
+  } else {
+    throw Error("Нужна копия Вместе, Потока или Python-программы.");
+  }
+
+  if (ledger.length > 5000 || items.length > 1000) {
+    throw Error("За раз — до 5000 операций и 1000 покупок.");
+  }
+
+  ledger = ledger.map(r => {
+    if (
+      !r ||
+      !["income", "expense"].includes(r.type) ||
+      !Number.isSafeInteger(r.amount) ||
+      r.amount < 1 ||
+      r.amount > 99999999999 ||
+      !validDate(r.date) ||
+      typeof r.category !== "string" ||
+      !r.category.trim() ||
+      r.category.length > 60 ||
+      typeof (r.comment ?? "") !== "string" ||
+      (r.comment || "").length > 300
+    ) throw Error("Неверная запись дохода или расхода.");
+
+    return {
+      type: r.type,
+      amount: r.amount,
+      date: r.date,
+      category: r.category,
+      comment: r.comment || "",
+      author: user.name
+    };
+  });
+
+  items = items.map(r => {
+    if (
+      !r ||
+      typeof r.title !== "string" ||
+      !r.title.trim() ||
+      r.title.length > 120 ||
+      typeof (r.quantity ?? "") !== "string" ||
+      (r.quantity || "").length > 100 ||
+      typeof r.bought !== "boolean"
+    ) throw Error("Неверная запись покупки.");
+
+    return {
+      title: r.title,
+      quantity: r.quantity || "",
+      bought: r.bought,
+      author: user.name
+    };
+  });
+
+  return { ledger, items };
+}
+
+$("form").onsubmit = async event => {
+  event.preventDefault();
+  if (!canEdit()) return;
+
+  try {
+    let record;
+
+    if (mode === "items") {
+      const title = $("product").value.trim();
+
+      if (!title) throw Error("Введите название покупки.");
+
+      record = {
+        title,
+        quantity: $("quantity").value.trim(),
+        bought: editing
+          ? !!state.items[editing.id]?.bought : false,
+        author: user.name
+      };
+
+    } else {
+      const amount = parseAmount($("amount").value);
+      const date = $("date").value;
+
+      if (!validDate(date)) throw Error("Проверьте дату.");
+
+      record = {
+        type: $("type").value,
+        amount,
+        date,
+        category: $("category").value,
+        comment: $("comment").value.trim(),
+        author: user.name
+      };
+    }
+
+    const target = editing
+      ? api.ref(db, path + "/" + mode + "/" + editing.id)
+      : api.push(api.ref(db, path + "/" + mode));
+
+    if (await write(() => api.set(target, record), "formError")) {
+      if (mode === "ledger") month = record.date.slice(0, 7);
+      render();
+      $("editor").close();
+      notify("Сохранено для семьи.");
+    }
+
+  } catch (e) {
+    $("formError").textContent = e.message;
+  }
+};
+
+$("delete").onclick = () => {
+  if (!editing) return;
+
+  const target = path + "/" + mode + "/" + editing.id;
+
+  ask("Удалить запись?", "Она исчезнет у обоих участников.", async () => {
+    if (await write(
+      () => api.remove(api.ref(db, target)), "formError"
+    )) $("editor").close();
+  });
+};
+
+$("start").onclick = () => {
+  const name = $("name").value.trim();
+
+  if (!name || name.length > 30) {
+    $("welcomeError").textContent =
+      "Введите имя: от 1 до 30 символов.";
+    return;
+  }
+
+  connect({ name, room: invitedRoom || token() });
+};
+
+$("addOperation").onclick = () => openEditor("ledger");
+$("addItem").onclick = () => openEditor("items");
+$("type").onchange = () => categories();
+$("search").oninput = render;
+$("filter").onchange = render;
+
+function changeMonth(step) {
+  const [y, m] = month.split("-").map(Number);
+  const d = new Date(y, m - 1 + step, 15);
+
+  if (d.getFullYear() < 1900 || d.getFullYear() > 2100) return;
+
+  month = d.getFullYear() + "-"
+    + String(d.getMonth() + 1).padStart(2, "0");
+
+  render();
+}
+
+$("prev").onclick = () => changeMonth(-1);
+$("next").onclick = () => changeMonth(1);
+
+document.querySelectorAll("[data-tab]").forEach(b => {
+  b.onclick = () => switchTab(b.dataset.tab);
+});
+
+$("familyButton").onclick = () => {
+  if (user && $("welcome").hidden) switchTab("family");
+  else notify("Сначала введите имя и подключитесь.");
+};
+
+$("closeEditor").onclick = () => {
+  if (!busy) $("editor").close();
+  else notify("Дождитесь сохранения.");
+};
+
+$("editor").addEventListener("cancel", e => {
+  if (busy) e.preventDefault();
+});
+
+$("closeText").onclick = () => {
+  if (!busy) $("textDialog").close();
+};
+
+$("yes").onclick = () => {
+  const action = onConfirm;
+  onConfirm = null;
+  $("confirmDialog").close();
+  if (action) action();
+};
+
+$("no").onclick = () => {
+  onConfirm = null;
+  $("confirmDialog").close();
+};
+
+$("confirmDialog").addEventListener("cancel", () => {
+  onConfirm = null;
+});
+
+$("textAction").onclick = () => {
+  if (onText) onText();
+};
+
+$("saveName").onclick = () => {
+  const name = $("profile").value.trim();
+
+  if (!name || name.length > 30) {
+    notify("Введите имя: от 1 до 30 символов.");
+    return;
+  }
+
+  user.name = name;
+  remember();
+  notify("Имя сохранено для новых записей.");
+};
+
+$("reconnect").onclick = () => {
+  if (!busy) connect(user);
+  else notify("Дождитесь сохранения.");
+};
+
+$("invite").onclick = () => {
+  const url = new URL(location.href);
+  url.hash = "r=" + user.room;
+
+  const hosted = location.protocol === "https:"
+    && !["localhost", "127.0.0.1", "::1"].includes(location.hostname)
+    && !location.hostname.endsWith(".local");
+
+  showText(
+    "Ссылка-приглашение",
+    hosted
+      ? "Отправьте ссылку жене или мужу. Любой, у кого она есть, " +
+        "получит доступ к семейным записям."
+      : "Это локальный предпросмотр. Сначала разместите index.html " +
+        "на сайте с HTTPS. Сохраните код пространства: " +
+        "он позволит перенести текущие записи.",
+    hosted ? url.href : user.room,
+    "Выделить текст",
+    selectText
+  );
+};
+
+$("export").onclick = () => {
+  if (!loaded) {
+    notify("Дождитесь загрузки данных.");
+    return;
+  }
+
+  showText(
+    "Резервная копия",
+    "Скопируйте весь текст в отдельную заметку или файл. " +
+      "Он содержит ваши финансовые записи.",
+    JSON.stringify({
+      app: "vmeste",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      ledger: entries().map(({ id, ...r }) => r),
+      items: purchases().map(({ id, ...r }) => r)
+    }, null, 2),
+    "Выделить текст",
+    selectText
+  );
+};
+
+$("import").onclick = () => {
+  if (!canEdit()) return;
+
+  showText(
+    "Импорт записей",
+    "Вставьте JSON-копию. Записи добавятся к существующим. " +
+      "Повторный импорт создаёт дубликаты.",
+    "",
+    "Проверить копию",
+    () => {
+      try {
+        const text = $("textValue").value;
+
+        if (text.length > 5000000) throw Error("Максимум 5 МБ.");
+
+        const data = validateImport(JSON.parse(text));
+
+        ask(
+          "Добавить записи?",
+          `Операций: ${data.ledger.length}, ` +
+          `покупок: ${data.items.length}. ` +
+          "Существующие записи сохранятся.",
+          async () => {
+            const updates = {};
+
+            for (const kind of ["ledger", "items"]) {
+              for (const record of data[kind]) {
+                const key = api.push(
+                  api.ref(db, path + "/" + kind)
+                ).key;
+
+                updates[kind + "/" + key] = record;
+              }
+            }
+
+            if (!Object.keys(updates).length) {
+              notify("Копия пустая.");
+              return;
+            }
+
+            if (await write(
+              () => api.update(api.ref(db, path), updates)
+            )) {
+              $("textDialog").close();
+              notify("Записи добавлены.");
+            }
+          }
+        );
+
+      } catch (e) {
+        $("textError").textContent = e.message;
+      }
+    },
+    false
+  );
+};
+
+$("leave").onclick = () => {
+  if (busy) {
+    notify("Дождитесь сохранения.");
+    return;
+  }
+
+  ask(
+    "Выйти на этом телефоне?",
+    "Записи останутся в Firebase. Для возвращения понадобится " +
+      "приглашение. Сохраните его перед выходом.",
+    () => {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+
+      history.replaceState(
+        null, "", location.pathname + location.search
+      );
+
+      location.reload();
+    }
+  );
+};
+
+function start() {
+  try {
+    const raw = localStorage.getItem(KEY);
+
+    if (raw) {
+      const saved = JSON.parse(raw);
+
+      if (
+        typeof saved.name === "string" &&
+        saved.name.trim() &&
+        saved.name.length <= 30 &&
+        /^[a-f0-9]{32}$/.test(saved.room)
+      ) {
+        user = { name: saved.name, room: saved.room };
+        $("name").value = user.name;
+      }
+    }
+
+  } catch (e) {
+    notice("Сохранённый вход недоступен. Можно войти по приглашению.");
+  }
+
+  if (location.hash) {
+    try {
+      if (location.hash.startsWith("#r=")) {
+        invitedRoom = location.hash.slice(3);
+
+      } else if (location.hash.startsWith("#join=")) {
+        const s = location.hash.slice(6)
+          .replaceAll("-", "+").replaceAll("_", "/");
+
+        const invite = JSON.parse(atob(s));
+
+        if (invite.config?.projectId !== CONFIG.projectId) {
+          throw Error();
+        }
+
+        invitedRoom = invite.room;
+
+      } else {
+        throw Error();
+      }
+
+      if (!/^[a-f0-9]{32}$/.test(invitedRoom)) throw Error();
+
+      $("welcomeTitle").textContent = "Вас пригласили в семью";
+      $("welcomeText").textContent =
+        "Введите своё имя. Общие записи появятся после подключения.";
+      $("start").textContent = "Присоединиться";
+
+      return;
+
+    } catch (e) {
+      notice(
+        "Приглашение повреждено. Попросите отправить ссылку заново."
+      );
+      $("start").disabled = true;
+      return;
+    }
+  }
+
+  if (user) connect(user);
+}
+
+start();
+</script>
+</body>
+</html>
