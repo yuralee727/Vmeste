@@ -28,7 +28,9 @@ body {
   font: 15px/1.5 system-ui, sans-serif;
 }
 
-button, input, select, textarea { font: inherit; }
+button, input, select, textarea {
+  font: inherit;
+}
 
 button {
   cursor: pointer;
@@ -38,6 +40,12 @@ button {
 }
 
 button:disabled { opacity: .45; }
+
+button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
 [hidden] { display: none !important; }
 
 .app {
@@ -61,6 +69,7 @@ header {
 }
 
 .logo span { color: var(--accent); }
+
 small, .note { color: var(--muted); }
 
 .note {
@@ -69,8 +78,15 @@ small, .note { color: var(--muted); }
   overflow-wrap: anywhere;
 }
 
-h2 { font-size: 19px; margin: 23px 0 13px; }
-h3 { font-size: 17px; margin: 0 0 12px; }
+h2 {
+  font-size: 19px;
+  margin: 23px 0 13px;
+}
+
+h3 {
+  font-size: 17px;
+  margin: 0 0 12px;
+}
 
 .card {
   background: var(--card);
@@ -80,7 +96,9 @@ h3 { font-size: 17px; margin: 0 0 12px; }
 }
 
 .hero {
-  background: linear-gradient(125deg, #d3baff, #a9aff6, #9ac7df);
+  background: linear-gradient(
+    125deg, #d3baff, #a9aff6, #9ac7df
+  );
   padding: 24px;
   border-radius: 25px;
   color: #29223e;
@@ -176,8 +194,17 @@ label {
   margin: 13px 0 5px;
 }
 
-.tools { display: flex; gap: 8px; margin-top: 15px; }
-.tools input { flex: 1; min-width: 0; }
+.tools {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.tools input {
+  flex: 1;
+  min-width: 0;
+}
+
 .tools select { width: 115px; }
 
 .row {
@@ -193,7 +220,10 @@ label {
 
 .row:last-child { border: 0; }
 
-.main { flex: 1; min-width: 0; }
+.main {
+  flex: 1;
+  min-width: 0;
+}
 
 .main b, .main small {
   display: block;
@@ -281,7 +311,9 @@ label {
   font-size: 12px;
 }
 
-.category-top span:last-child { text-align: right; }
+.category-top span:last-child {
+  text-align: right;
+}
 
 .track {
   height: 6px;
@@ -291,7 +323,10 @@ label {
   overflow: hidden;
 }
 
-.track i { display: block; height: 100%; }
+.track i {
+  display: block;
+  height: 100%;
+}
 
 .notice {
   background: #493d2e;
@@ -337,7 +372,10 @@ nav button {
   font-size: 11px;
 }
 
-nav button span { display: block; font-size: 23px; }
+nav button span {
+  display: block;
+  font-size: 23px;
+}
 
 nav .active {
   background: #bfadff12;
@@ -355,7 +393,9 @@ dialog {
   border-radius: 23px;
 }
 
-dialog::backdrop { background: #080b14ce; }
+dialog::backdrop {
+  background: #080b14ce;
+}
 
 .dialog-head {
   display: flex;
@@ -364,7 +404,11 @@ dialog::backdrop { background: #080b14ce; }
 }
 
 .dialog-head h2 { margin: 0; }
-.dialog-head button { background: none; font-size: 26px; }
+
+.dialog-head button {
+  background: none;
+  font-size: 26px;
+}
 
 .toast {
   position: fixed;
@@ -385,11 +429,13 @@ dialog::backdrop { background: #080b14ce; }
 
 <body>
 <main class="app">
+
   <header>
     <div>
       <div class="logo">вместе<span>●</span></div>
       <small id="status">Семейный бюджет и покупки</small>
     </div>
+
     <button id="familyButton" class="icon"
             aria-label="Настройки семьи">⚙</button>
   </header>
@@ -404,13 +450,15 @@ dialog::backdrop { background: #080b14ce; }
 
     <div class="card">
       <h3 id="welcomeTitle">Создать пространство</h3>
+
       <p class="note" id="welcomeText">
         Введите имя. Затем пригласите жену или мужа
         через раздел «Семья».
       </p>
 
       <label for="name">Ваше имя</label>
-      <input id="name" maxlength="30" autocomplete="given-name"
+      <input id="name" maxlength="30"
+             autocomplete="given-name"
              placeholder="Как к вам обращаться?">
 
       <p id="welcomeError" class="error" role="alert"></p>
@@ -422,11 +470,14 @@ dialog::backdrop { background: #080b14ce; }
   </section>
 
   <div id="workspace" hidden>
+
     <section id="budget">
       <div class="month">
         <button id="prev" class="icon"
                 aria-label="Предыдущий месяц">‹</button>
+
         <b id="monthTitle"></b>
+
         <button id="next" class="icon"
                 aria-label="Следующий месяц">›</button>
       </div>
@@ -442,6 +493,7 @@ dialog::backdrop { background: #080b14ce; }
           <small>Доходы за месяц</small>
           <b id="income" class="green"></b>
         </div>
+
         <div class="card">
           <small>Расходы за месяц</small>
           <b id="expense" class="red"></b>
@@ -459,7 +511,9 @@ dialog::backdrop { background: #080b14ce; }
 
       <div class="tools">
         <input id="search" type="search"
-               placeholder="Поиск" aria-label="Поиск операций">
+               placeholder="Поиск"
+               aria-label="Поиск операций">
+
         <select id="filter" aria-label="Тип операций">
           <option value="all">Все</option>
           <option value="expense">Расходы</option>
@@ -472,6 +526,7 @@ dialog::backdrop { background: #080b14ce; }
 
     <section id="shopping" hidden>
       <h2>Общий список покупок</h2>
+
       <p class="note">
         Отметка «куплено» видна на обоих телефонах.
         В расходы покупка автоматически не записывается.
@@ -490,12 +545,14 @@ dialog::backdrop { background: #080b14ce; }
 
       <div class="card">
         <h3>Пригласить второго участника</h3>
+
         <p class="note">
           Ссылка даёт доступ к семейным записям.
           Отправляйте её только близкому человеку.
           Для открытия на iPhone приложение должно
           находиться на сайте с HTTPS.
         </p>
+
         <button id="invite" class="primary">
           Получить приглашение
         </button>
@@ -503,7 +560,10 @@ dialog::backdrop { background: #080b14ce; }
 
       <div class="card">
         <h3>Ваше имя</h3>
-        <input id="profile" maxlength="30" aria-label="Ваше имя">
+
+        <input id="profile" maxlength="30"
+               aria-label="Ваше имя">
+
         <button id="saveName" class="secondary">
           Сохранить имя
         </button>
@@ -511,12 +571,15 @@ dialog::backdrop { background: #080b14ce; }
 
       <div class="card">
         <h3>Резервные копии</h3>
+
         <button id="export" class="secondary">
           Показать копию текстом
         </button>
+
         <button id="import" class="secondary">
           Добавить записи из копии
         </button>
+
         <p class="note">
           Поддерживаются копии «Вместе», «Потока»
           и rashody_data.json.
@@ -526,19 +589,23 @@ dialog::backdrop { background: #080b14ce; }
 
       <div class="card">
         <h3>Подключение</h3>
+
         <p class="note">
           Для синхронизации нужен интернет.
           Сохраните приглашение отдельно, чтобы не потерять
           доступ при очистке браузера.
         </p>
+
         <button id="reconnect" class="secondary">
           Переподключиться
         </button>
+
         <button id="leave" class="secondary danger">
           Выйти на этом телефоне
         </button>
       </div>
     </section>
+
   </div>
 
   <p class="foot">Маленькие планы. Большое «мы».</p>
@@ -548,9 +615,11 @@ dialog::backdrop { background: #080b14ce; }
   <button data-tab="budget" class="active">
     <span>◔</span>Бюджет
   </button>
+
   <button data-tab="shopping">
     <span>☑</span>Покупки
   </button>
+
   <button data-tab="family">
     <span>⚙</span>Семья
   </button>
@@ -565,14 +634,15 @@ dialog::backdrop { background: #080b14ce; }
   <form id="form" novalidate>
     <div id="financeFields">
       <label for="type">Тип операции</label>
+
       <select id="type">
         <option value="expense">Расход</option>
         <option value="income">Доход</option>
       </select>
 
-      <label for="amount">Сумма, ₽</label>
-      <input id="amount" inputmode="decimal" maxlength="20"
-             placeholder="Например, 350,50">
+      <label for="amount">Сумма, ₩</label>
+      <input id="amount" inputmode="decimal"
+             maxlength="20" placeholder="Например, 350">
 
       <label for="category">Категория</label>
       <select id="category"></select>
@@ -587,7 +657,8 @@ dialog::backdrop { background: #080b14ce; }
 
     <div id="shoppingFields" hidden>
       <label for="product">Название покупки</label>
-      <input id="product" maxlength="120" placeholder="Молоко">
+      <input id="product" maxlength="120"
+             placeholder="Молоко">
 
       <label for="quantity">Количество или примечание</label>
       <input id="quantity" maxlength="100"
@@ -597,6 +668,7 @@ dialog::backdrop { background: #080b14ce; }
     <p id="formError" class="error" role="alert"></p>
 
     <button id="save" class="primary">Сохранить</button>
+
     <button id="delete" type="button"
             class="secondary danger" hidden>
       Удалить запись
@@ -609,16 +681,21 @@ dialog::backdrop { background: #080b14ce; }
     <h2 id="textTitle"></h2>
     <button id="closeText" aria-label="Закрыть">×</button>
   </div>
+
   <p id="textHelp" class="note"></p>
+
   <textarea id="textValue" rows="10" spellcheck="false"
             aria-label="Текст"></textarea>
+
   <p id="textError" class="error" role="alert"></p>
+
   <button id="textAction" class="primary"></button>
 </dialog>
 
 <dialog id="confirmDialog">
   <h3 id="confirmTitle"></h3>
   <p id="confirmText" class="note"></p>
+
   <button id="yes" class="primary">Подтвердить</button>
   <button id="no" class="secondary">Отмена</button>
 </dialog>
@@ -653,14 +730,20 @@ const colors = [
   "#ffa5b5", "#f1d788", "#7edbe7", "#a6afca"
 ];
 
-const money = n => new Intl.NumberFormat("ru-RU", {
+const currencyFormatter = new Intl.NumberFormat("ru-RU", {
   style: "currency",
-  currency: "RUB",
-  maximumFractionDigits: 2
-}).format(n / 100);
+  currency: "KRW",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0
+});
+
+function money(value) {
+  return currencyFormatter.format(value / 100);
+}
 
 function today() {
   const d = new Date();
+
   return [
     d.getFullYear(),
     String(d.getMonth() + 1).padStart(2, "0"),
@@ -671,33 +754,44 @@ function today() {
 let month = today().slice(0, 7);
 let user = null;
 let invitedRoom = null;
+
 let api = null;
 let db = null;
 let path = "";
+
 let online = false;
 let loaded = false;
 let busy = false;
 let session = 0;
+
 let stops = [];
 let state = { ledger: {}, items: {} };
+
 let editing = null;
 let mode = "ledger";
+
 let onConfirm = null;
 let onText = null;
 let timer;
 
 function el(tag, cls, text) {
   const e = document.createElement(tag);
+
   if (cls) e.className = cls;
   if (text !== undefined) e.textContent = text;
+
   return e;
 }
 
 function notify(text) {
   clearTimeout(timer);
+
   $("toast").textContent = text;
   $("toast").hidden = false;
-  timer = setTimeout(() => $("toast").hidden = true, 4500);
+
+  timer = setTimeout(() => {
+    $("toast").hidden = true;
+  }, 4500);
 }
 
 function notice(text) {
@@ -705,32 +799,41 @@ function notice(text) {
   $("notice").hidden = !text;
 }
 
-function validDate(v) {
+function validDate(value) {
   if (
-    typeof v !== "string" ||
-    !/^\d{4}-\d{2}-\d{2}$/.test(v) ||
-    v < "1900-01-01" ||
-    v > "2100-12-31"
-  ) return false;
-
-  const d = new Date(v + "T12:00:00Z");
-
-  return !Number.isNaN(+d)
-    && d.toISOString().slice(0, 10) === v;
-}
-
-function parseAmount(v) {
-  const s = v.replace(/\s/g, "").replace(",", ".");
-
-  if (!/^\d{1,9}(\.\d{1,2})?$/.test(s)) {
-    throw Error("Введите сумму, например 350,50.");
+    typeof value !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(value) ||
+    value < "1900-01-01" ||
+    value > "2100-12-31"
+  ) {
+    return false;
   }
 
-  const [a, b = ""] = s.split(".");
-  const n = Number(a) * 100 + Number(b.padEnd(2, "0"));
+  const d = new Date(value + "T12:00:00Z");
 
-  if (n < 1) throw Error("Сумма должна быть больше нуля.");
-  return n;
+  return !Number.isNaN(+d)
+    && d.toISOString().slice(0, 10) === value;
+}
+
+function parseAmount(value) {
+  const text = value
+    .replace(/\s/g, "")
+    .replace(",", ".");
+
+  if (!/^\d{1,9}(\.\d{1,2})?$/.test(text)) {
+    throw Error("Введите сумму, например 350.");
+  }
+
+  const [whole, fraction = ""] = text.split(".");
+
+  const amount = Number(whole) * 100
+    + Number(fraction.padEnd(2, "0"));
+
+  if (amount < 1) {
+    throw Error("Сумма должна быть больше нуля.");
+  }
+
+  return amount;
 }
 
 function token() {
@@ -742,33 +845,39 @@ function token() {
 function remember() {
   try {
     localStorage.setItem(
-      KEY, JSON.stringify({ ...user, config: CONFIG })
+      KEY,
+      JSON.stringify({ ...user, config: CONFIG })
     );
   } catch (e) {
-    notify("Не удалось запомнить вход. Сохраните приглашение отдельно.");
+    notify(
+      "Не удалось запомнить вход. " +
+      "Сохраните приглашение отдельно."
+    );
   }
 }
 
 function rows(kind) {
   return Object.entries(state[kind] || {})
-    .filter(([, r]) => r && typeof r === "object")
-    .map(([id, r]) => ({ ...r, id }));
+    .filter(([, record]) =>
+      record && typeof record === "object"
+    )
+    .map(([id, record]) => ({ ...record, id }));
 }
 
 function entries() {
-  return rows("ledger").filter(r =>
-    ["income", "expense"].includes(r.type) &&
-    Number.isSafeInteger(r.amount) &&
-    r.amount > 0 &&
-    validDate(r.date) &&
-    typeof r.category === "string"
+  return rows("ledger").filter(record =>
+    ["income", "expense"].includes(record.type) &&
+    Number.isSafeInteger(record.amount) &&
+    record.amount > 0 &&
+    validDate(record.date) &&
+    typeof record.category === "string"
   );
 }
 
 function purchases() {
-  return rows("items").filter(r =>
-    typeof r.title === "string" &&
-    typeof r.bought === "boolean"
+  return rows("items").filter(record =>
+    typeof record.title === "string" &&
+    typeof record.bought === "boolean"
   );
 }
 
@@ -777,52 +886,80 @@ function switchTab(tab) {
     $(name).hidden = name !== tab;
   }
 
-  document.querySelectorAll("[data-tab]").forEach(b => {
-    b.classList.toggle("active", b.dataset.tab === tab);
+  document.querySelectorAll("[data-tab]").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.tab === tab
+    );
   });
 
   window.scrollTo(0, 0);
 }
 
 function empty(container, title, text) {
-  const e = el("div", "empty");
-  e.append(el("b", "", title), el("div", "", text));
-  container.append(e);
+  const block = el("div", "empty");
+
+  block.append(
+    el("b", "", title),
+    el("div", "", text)
+  );
+
+  container.append(block);
 }
 
 function render() {
   const all = entries();
 
   const list = all
-    .filter(r => r.date.slice(0, 7) === month)
+    .filter(record => record.date.slice(0, 7) === month)
     .sort((a, b) =>
-      b.date.localeCompare(a.date) || b.id.localeCompare(a.id)
+      b.date.localeCompare(a.date) ||
+      b.id.localeCompare(a.id)
     );
 
   $("monthTitle").textContent = new Intl.DateTimeFormat(
-    "ru-RU", { month: "long", year: "numeric" }
+    "ru-RU",
+    { month: "long", year: "numeric" }
   ).format(new Date(month + "-15T12:00:00"));
 
-  $("balance").textContent = money(all.reduce(
-    (s, r) => s + (r.type === "income" ? r.amount : -r.amount), 0
-  ));
+  const balance = all.reduce(
+    (sum, record) => sum + (
+      record.type === "income"
+        ? record.amount
+        : -record.amount
+    ),
+    0
+  );
 
-  $("income").textContent = money(list
-    .filter(r => r.type === "income")
-    .reduce((s, r) => s + r.amount, 0));
+  const income = list
+    .filter(record => record.type === "income")
+    .reduce((sum, record) => sum + record.amount, 0);
 
-  $("expense").textContent = money(list
-    .filter(r => r.type === "expense")
-    .reduce((s, r) => s + r.amount, 0));
+  const expense = list
+    .filter(record => record.type === "expense")
+    .reduce((sum, record) => sum + record.amount, 0);
 
-  const q = $("search").value.trim().toLocaleLowerCase("ru");
+  $("balance").textContent = money(balance);
+  $("income").textContent = money(income);
+  $("expense").textContent = money(expense);
+
+  const query = $("search").value
+    .trim()
+    .toLocaleLowerCase("ru");
+
   const type = $("filter").value;
 
-  const filtered = list.filter(r =>
-    (type === "all" || r.type === type) &&
-    `${r.category} ${r.comment || ""} ${r.author || ""}`
-      .toLocaleLowerCase("ru").includes(q)
-  );
+  const filtered = list.filter(record => {
+    const text = [
+      record.category,
+      record.comment || "",
+      record.author || ""
+    ].join(" ").toLocaleLowerCase("ru");
+
+    return (
+      type === "all" || record.type === type
+    ) && text.includes(query);
+  });
 
   $("ledger").replaceChildren();
 
@@ -834,29 +971,33 @@ function render() {
     );
   }
 
-  for (const r of filtered) {
+  for (const record of filtered) {
     const row = el("button", "row");
     const main = el("span", "main");
 
     const sum = el(
       "span",
-      "sum" + (r.type === "income" ? " green" : ""),
-      (r.type === "income" ? "+" : "−") + money(r.amount)
+      "sum" + (record.type === "income" ? " green" : ""),
+      (record.type === "income" ? "+" : "−")
+        + money(record.amount)
     );
 
     main.append(
-      el("b", "", r.category),
-      el("small", "", r.comment || "Без комментария")
+      el("b", "", record.category),
+      el("small", "", record.comment || "Без комментария")
     );
 
     sum.append(el(
-      "small", "",
-      r.date.split("-").reverse().join(".") +
-      " · " + (r.author || "Семья")
+      "small",
+      "",
+      record.date.split("-").reverse().join(".")
+        + " · "
+        + (record.author || "Семья")
     ));
 
     row.append(main, sum);
-    row.onclick = () => openEditor("ledger", r);
+    row.onclick = () => openEditor("ledger", record);
+
     $("ledger").append(row);
   }
 
@@ -865,39 +1006,54 @@ function render() {
 }
 
 function drawChart(list) {
-  const c = $("chart");
-  c.replaceChildren();
+  const container = $("chart");
+  container.replaceChildren();
 
   const totals = new Map();
 
-  for (const r of list.filter(r => r.type === "expense")) {
-    totals.set(r.category, (totals.get(r.category) || 0) + r.amount);
+  for (const record of list) {
+    if (record.type !== "expense") continue;
+
+    totals.set(
+      record.category,
+      (totals.get(record.category) || 0) + record.amount
+    );
   }
 
   const groups = [...totals].sort((a, b) => b[1] - a[1]);
-  const total = groups.reduce((s, r) => s + r[1], 0);
+
+  const total = groups.reduce(
+    (sum, item) => sum + item[1],
+    0
+  );
 
   if (!total) {
     empty(
-      c, "Расходов пока нет",
+      container,
+      "Расходов пока нет",
       "После первой записи появится диаграмма."
     );
     return;
   }
 
-  let a = 0;
+  let angle = 0;
   const parts = [];
 
-  groups.forEach(([, n], i) => {
-    const b = a + n / total * 360;
-    parts.push(`${colors[i % colors.length]} ${a}deg ${b}deg`);
-    a = b;
+  groups.forEach(([, amount], index) => {
+    const end = angle + amount / total * 360;
+
+    parts.push(
+      `${colors[index % colors.length]} ${angle}deg ${end}deg`
+    );
+
+    angle = end;
   });
 
   const ring = el("div", "ring");
   const hole = el("div", "hole");
 
-  ring.style.background = `conic-gradient(${parts.join(",")})`;
+  ring.style.background =
+    `conic-gradient(${parts.join(",")})`;
 
   hole.append(
     el("b", "", String(groups.length)),
@@ -905,28 +1061,29 @@ function drawChart(list) {
   );
 
   ring.append(hole);
-  c.append(ring);
+  container.append(ring);
 
-  groups.forEach(([cat, n], i) => {
+  groups.forEach(([category, amount], index) => {
     const block = el("div", "category");
     const head = el("div", "category-top");
     const track = el("div", "track");
     const fill = el("i");
 
     head.append(
-      el("span", "", cat),
+      el("span", "", category),
       el(
-        "span", "",
-        `${money(n)} · ${Math.round(n / total * 100)}%`
+        "span",
+        "",
+        `${money(amount)} · ${Math.round(amount / total * 100)}%`
       )
     );
 
-    fill.style.width = n / total * 100 + "%";
-    fill.style.background = colors[i % colors.length];
+    fill.style.width = amount / total * 100 + "%";
+    fill.style.background = colors[index % colors.length];
 
     track.append(fill);
     block.append(head, track);
-    c.append(block);
+    container.append(block);
   });
 }
 
@@ -938,50 +1095,76 @@ function renderItems() {
 
   $("items").replaceChildren();
 
+  const remaining = list.filter(record => !record.bought).length;
+  const bought = list.filter(record => record.bought).length;
+
   $("itemCount").textContent =
-    `Осталось купить: ${list.filter(r => !r.bought).length}` +
-    ` · куплено: ${list.filter(r => r.bought).length}`;
+    `Осталось купить: ${remaining} · куплено: ${bought}`;
 
   if (!list.length) {
-    empty($("items"), "Список пока пуст", "Добавьте первую покупку.");
+    empty(
+      $("items"),
+      "Список пока пуст",
+      "Добавьте первую покупку."
+    );
   }
 
-  for (const r of list) {
-    const row = el("div", "row" + (r.bought ? " bought" : ""));
+  for (const record of list) {
+    const row = el(
+      "div",
+      "row" + (record.bought ? " bought" : "")
+    );
+
     const check = el("input", "check");
     const main = el("div", "main");
     const more = el("button", "more", "⋯");
 
     check.type = "checkbox";
-    check.checked = r.bought;
+    check.checked = record.bought;
     check.disabled = !online || !loaded || busy;
-    check.setAttribute("aria-label", "Куплено: " + r.title);
+
+    check.setAttribute(
+      "aria-label",
+      "Куплено: " + record.title
+    );
 
     check.onchange = async () => {
       const value = check.checked;
-      check.checked = r.bought;
+      check.checked = record.bought;
 
       await write(() => api.update(
-        api.ref(db, path + "/items/" + r.id),
+        api.ref(db, path + "/items/" + record.id),
         { bought: value }
       ));
     };
 
     main.append(
-      el("b", "", r.title),
-      el("small", "", [r.quantity, r.author].filter(Boolean).join(" · "))
+      el("b", "", record.title),
+      el(
+        "small",
+        "",
+        [record.quantity, record.author]
+          .filter(Boolean)
+          .join(" · ")
+      )
     );
 
-    more.setAttribute("aria-label", "Редактировать " + r.title);
-    more.onclick = () => openEditor("items", r);
+    more.setAttribute(
+      "aria-label",
+      "Редактировать " + record.title
+    );
+
+    more.onclick = () => openEditor("items", record);
 
     row.append(check, main, more);
     $("items").append(row);
   }
 }
 
-function explain(e) {
-  const code = String(e.code || e.message || "");
+function explain(error) {
+  const code = String(
+    error.code || error.message || ""
+  );
 
   if (/operation-not-allowed/.test(code)) {
     return "В Firebase нужно включить Authentication → Anonymous.";
@@ -995,14 +1178,15 @@ function explain(e) {
     return "Проверьте конфигурацию Firebase.";
   }
 
-  return "Нет соединения с Firebase. Проверьте интернет " +
-    "и нажмите «Переподключиться».";
+  return "Нет соединения с Firebase. Проверьте интернет "
+    + "и нажмите «Переподключиться».";
 }
 
 async function sdk() {
   if (api) return;
 
-  const base = "https://www.gstatic.com/firebasejs/11.10.0/";
+  const base =
+    "https://www.gstatic.com/firebasejs/11.10.0/";
 
   const modules = await Promise.all([
     import(base + "firebase-app.js"),
@@ -1016,7 +1200,9 @@ async function sdk() {
 function updateStatus() {
   $("status").textContent = online && loaded
     ? "● Семейная база подключена"
-    : online ? "Получаем записи…" : "○ Нет связи с базой";
+    : online
+      ? "Получаем записи…"
+      : "○ Нет связи с базой";
 }
 
 async function connect(person) {
@@ -1024,6 +1210,7 @@ async function connect(person) {
 
   stops.forEach(stop => stop());
   stops = [];
+
   online = false;
   loaded = false;
   state = { ledger: {}, items: {} };
@@ -1034,24 +1221,30 @@ async function connect(person) {
 
   try {
     await sdk();
+
     if (current !== session) return;
 
-    const app = api.getApps().find(a => a.name === "vmeste")
-      || api.initializeApp(CONFIG, "vmeste");
+    const app = api.getApps().find(
+      item => item.name === "vmeste"
+    ) || api.initializeApp(CONFIG, "vmeste");
 
     await api.signInAnonymously(api.getAuth(app));
+
     if (current !== session) return;
 
     db = api.getDatabase(app);
     user = person;
     path = "rooms/" + person.room;
+
     remember();
 
     try {
       history.replaceState(
-        null, "", location.pathname + location.search
+        null,
+        "",
+        location.pathname + location.search
       );
-    } catch (e) {}
+    } catch (error) {}
 
     invitedRoom = null;
 
@@ -1072,10 +1265,12 @@ async function connect(person) {
         updateStatus();
 
         notice(
-          online && loaded ? "" :
-          online ? "Получаем семейные записи…" :
-          "Нет связи. Показаны последние полученные данные. " +
-          "Изменения доступны после подключения."
+          online && loaded
+            ? ""
+            : online
+              ? "Получаем семейные записи…"
+              : "Нет связи. Показаны последние полученные данные. "
+                + "Изменения доступны после подключения."
         );
 
         renderItems();
@@ -1088,6 +1283,7 @@ async function connect(person) {
         if (current !== session) return;
 
         const value = snapshot.val() || {};
+
         state = {
           ledger: value.ledger || {},
           items: value.items || {}
@@ -1095,35 +1291,44 @@ async function connect(person) {
 
         loaded = true;
         updateStatus();
+
         if (online) notice("");
+
         render();
       },
       error => {
         if (current !== session) return;
+
         loaded = false;
         updateStatus();
         notice(explain(error));
       }
     ));
 
-  } catch (e) {
+  } catch (error) {
     if (current !== session) return;
 
-    const message = explain(e);
+    const message = explain(error);
+
     notice(message);
     $("welcomeError").textContent = message;
     $("status").textContent = "Не подключено";
 
   } finally {
-    if (current === session) $("start").disabled = false;
+    if (current === session) {
+      $("start").disabled = false;
+    }
   }
 }
 
 async function write(action, errorId) {
   if (!online || !loaded || busy) {
-    notify(busy
-      ? "Дождитесь сохранения."
-      : "Дождитесь подключения к базе.");
+    notify(
+      busy
+        ? "Дождитесь сохранения."
+        : "Дождитесь подключения к базе."
+    );
+
     return false;
   }
 
@@ -1136,12 +1341,18 @@ async function write(action, errorId) {
 
   try {
     await action();
+
     if (errorId) $(errorId).textContent = "";
+
     return true;
 
-  } catch (e) {
-    if (errorId) $(errorId).textContent = explain(e);
-    else notify(explain(e));
+  } catch (error) {
+    if (errorId) {
+      $(errorId).textContent = explain(error);
+    } else {
+      notify(explain(error));
+    }
+
     return false;
 
   } finally {
@@ -1156,15 +1367,22 @@ function canEdit() {
     notify("Для изменений дождитесь подключения к базе.");
     return false;
   }
+
   return true;
 }
 
 function categories(selected) {
   const list = [
-    ...($("type").value === "income" ? incomeCats : expenseCats)
+    ...(
+      $("type").value === "income"
+        ? incomeCats
+        : expenseCats
+    )
   ];
 
-  if (selected && !list.includes(selected)) list.push(selected);
+  if (selected && !list.includes(selected)) {
+    list.push(selected);
+  }
 
   $("category").replaceChildren(...list.map(name => {
     const option = el("option", "", name);
@@ -1172,7 +1390,9 @@ function categories(selected) {
     return option;
   }));
 
-  if (selected) $("category").value = selected;
+  if (selected) {
+    $("category").value = selected;
+  }
 }
 
 function openEditor(kind, record = null) {
@@ -1184,8 +1404,8 @@ function openEditor(kind, record = null) {
   const shopping = kind === "items";
 
   $("editorTitle").textContent = shopping
-    ? (record ? "Изменить покупку" : "Новая покупка")
-    : (record ? "Изменить операцию" : "Новая операция");
+    ? record ? "Изменить покупку" : "Новая покупка"
+    : record ? "Изменить операцию" : "Новая операция";
 
   $("financeFields").hidden = shopping;
   $("shoppingFields").hidden = !shopping;
@@ -1198,10 +1418,12 @@ function openEditor(kind, record = null) {
 
   } else {
     $("type").value = record ? record.type : "expense";
+
     categories(record ? record.category : null);
 
     $("amount").value = record
-      ? (record.amount / 100).toFixed(2).replace(".", ",") : "";
+      ? (record.amount / 100).toFixed(0)
+      : "";
 
     $("date").value = record ? record.date : today();
     $("comment").value = record ? record.comment : "";
@@ -1213,26 +1435,44 @@ function openEditor(kind, record = null) {
 function ask(title, text, action) {
   $("confirmTitle").textContent = title;
   $("confirmText").textContent = text;
+
   onConfirm = action;
+
   $("confirmDialog").showModal();
 }
 
-function showText(title, help, value, button, action, readonly = true) {
+function showText(
+  title,
+  help,
+  value,
+  button,
+  action,
+  readonly = true
+) {
   $("textTitle").textContent = title;
   $("textHelp").textContent = help;
   $("textValue").value = value;
   $("textValue").readOnly = readonly;
   $("textAction").textContent = button;
   $("textError").textContent = "";
+
   onText = action;
+
   $("textDialog").showModal();
 }
 
 function selectText() {
   $("textValue").focus();
   $("textValue").select();
-  $("textValue").setSelectionRange(0, $("textValue").value.length);
-  notify("Текст выделен. Удерживайте поле и выберите «Копировать».");
+
+  $("textValue").setSelectionRange(
+    0,
+    $("textValue").value.length
+  );
+
+  notify(
+    "Текст выделен. Удерживайте поле и выберите «Копировать»."
+  );
 }
 
 function validateImport(payload) {
@@ -1240,16 +1480,22 @@ function validateImport(payload) {
   let items = [];
 
   if (Array.isArray(payload)) {
-    ledger = payload.map(r => ({ ...r, type: "expense" }));
+    ledger = payload.map(record => ({
+      ...record,
+      type: "expense"
+    }));
 
   } else if (
-    payload && payload.app === "potok" &&
-    payload.version === 1 && Array.isArray(payload.records)
+    payload &&
+    payload.app === "potok" &&
+    payload.version === 1 &&
+    Array.isArray(payload.records)
   ) {
     ledger = payload.records;
 
   } else if (
-    payload && payload.app === "vmeste" &&
+    payload &&
+    payload.app === "vmeste" &&
     payload.version === 1 &&
     Array.isArray(payload.ledger) &&
     Array.isArray(payload.items)
@@ -1258,53 +1504,61 @@ function validateImport(payload) {
     items = payload.items;
 
   } else {
-    throw Error("Нужна копия Вместе, Потока или Python-программы.");
+    throw Error(
+      "Нужна копия Вместе, Потока или Python-программы."
+    );
   }
 
   if (ledger.length > 5000 || items.length > 1000) {
-    throw Error("За раз — до 5000 операций и 1000 покупок.");
+    throw Error(
+      "За раз — до 5000 операций и 1000 покупок."
+    );
   }
 
-  ledger = ledger.map(r => {
+  ledger = ledger.map(record => {
     if (
-      !r ||
-      !["income", "expense"].includes(r.type) ||
-      !Number.isSafeInteger(r.amount) ||
-      r.amount < 1 ||
-      r.amount > 99999999999 ||
-      !validDate(r.date) ||
-      typeof r.category !== "string" ||
-      !r.category.trim() ||
-      r.category.length > 60 ||
-      typeof (r.comment ?? "") !== "string" ||
-      (r.comment || "").length > 300
-    ) throw Error("Неверная запись дохода или расхода.");
+      !record ||
+      !["income", "expense"].includes(record.type) ||
+      !Number.isSafeInteger(record.amount) ||
+      record.amount < 1 ||
+      record.amount > 99999999999 ||
+      !validDate(record.date) ||
+      typeof record.category !== "string" ||
+      !record.category.trim() ||
+      record.category.length > 60 ||
+      typeof (record.comment ?? "") !== "string" ||
+      (record.comment || "").length > 300
+    ) {
+      throw Error("Неверная запись дохода или расхода.");
+    }
 
     return {
-      type: r.type,
-      amount: r.amount,
-      date: r.date,
-      category: r.category,
-      comment: r.comment || "",
+      type: record.type,
+      amount: record.amount,
+      date: record.date,
+      category: record.category,
+      comment: record.comment || "",
       author: user.name
     };
   });
 
-  items = items.map(r => {
+  items = items.map(record => {
     if (
-      !r ||
-      typeof r.title !== "string" ||
-      !r.title.trim() ||
-      r.title.length > 120 ||
-      typeof (r.quantity ?? "") !== "string" ||
-      (r.quantity || "").length > 100 ||
-      typeof r.bought !== "boolean"
-    ) throw Error("Неверная запись покупки.");
+      !record ||
+      typeof record.title !== "string" ||
+      !record.title.trim() ||
+      record.title.length > 120 ||
+      typeof (record.quantity ?? "") !== "string" ||
+      (record.quantity || "").length > 100 ||
+      typeof record.bought !== "boolean"
+    ) {
+      throw Error("Неверная запись покупки.");
+    }
 
     return {
-      title: r.title,
-      quantity: r.quantity || "",
-      bought: r.bought,
+      title: record.title,
+      quantity: record.quantity || "",
+      bought: record.bought,
       author: user.name
     };
   });
@@ -1314,6 +1568,7 @@ function validateImport(payload) {
 
 $("form").onsubmit = async event => {
   event.preventDefault();
+
   if (!canEdit()) return;
 
   try {
@@ -1322,13 +1577,16 @@ $("form").onsubmit = async event => {
     if (mode === "items") {
       const title = $("product").value.trim();
 
-      if (!title) throw Error("Введите название покупки.");
+      if (!title) {
+        throw Error("Введите название покупки.");
+      }
 
       record = {
         title,
         quantity: $("quantity").value.trim(),
         bought: editing
-          ? !!state.items[editing.id]?.bought : false,
+          ? !!state.items[editing.id]?.bought
+          : false,
         author: user.name
       };
 
@@ -1336,7 +1594,9 @@ $("form").onsubmit = async event => {
       const amount = parseAmount($("amount").value);
       const date = $("date").value;
 
-      if (!validDate(date)) throw Error("Проверьте дату.");
+      if (!validDate(date)) {
+        throw Error("Проверьте дату.");
+      }
 
       record = {
         type: $("type").value,
@@ -1352,15 +1612,23 @@ $("form").onsubmit = async event => {
       ? api.ref(db, path + "/" + mode + "/" + editing.id)
       : api.push(api.ref(db, path + "/" + mode));
 
-    if (await write(() => api.set(target, record), "formError")) {
-      if (mode === "ledger") month = record.date.slice(0, 7);
+    const saved = await write(
+      () => api.set(target, record),
+      "formError"
+    );
+
+    if (saved) {
+      if (mode === "ledger") {
+        month = record.date.slice(0, 7);
+      }
+
       render();
       $("editor").close();
       notify("Сохранено для семьи.");
     }
 
-  } catch (e) {
-    $("formError").textContent = e.message;
+  } catch (error) {
+    $("formError").textContent = error.message;
   }
 };
 
@@ -1369,11 +1637,18 @@ $("delete").onclick = () => {
 
   const target = path + "/" + mode + "/" + editing.id;
 
-  ask("Удалить запись?", "Она исчезнет у обоих участников.", async () => {
-    if (await write(
-      () => api.remove(api.ref(db, target)), "formError"
-    )) $("editor").close();
-  });
+  ask(
+    "Удалить запись?",
+    "Она исчезнет у обоих участников.",
+    async () => {
+      const removed = await write(
+        () => api.remove(api.ref(db, target)),
+        "formError"
+      );
+
+      if (removed) $("editor").close();
+    }
+  );
 };
 
 $("start").onclick = () => {
@@ -1385,20 +1660,29 @@ $("start").onclick = () => {
     return;
   }
 
-  connect({ name, room: invitedRoom || token() });
+  connect({
+    name,
+    room: invitedRoom || token()
+  });
 };
 
 $("addOperation").onclick = () => openEditor("ledger");
 $("addItem").onclick = () => openEditor("items");
+
 $("type").onchange = () => categories();
 $("search").oninput = render;
 $("filter").onchange = render;
 
 function changeMonth(step) {
-  const [y, m] = month.split("-").map(Number);
-  const d = new Date(y, m - 1 + step, 15);
+  const [year, number] = month.split("-").map(Number);
+  const d = new Date(year, number - 1 + step, 15);
 
-  if (d.getFullYear() < 1900 || d.getFullYear() > 2100) return;
+  if (
+    d.getFullYear() < 1900 ||
+    d.getFullYear() > 2100
+  ) {
+    return;
+  }
 
   month = d.getFullYear() + "-"
     + String(d.getMonth() + 1).padStart(2, "0");
@@ -1409,22 +1693,28 @@ function changeMonth(step) {
 $("prev").onclick = () => changeMonth(-1);
 $("next").onclick = () => changeMonth(1);
 
-document.querySelectorAll("[data-tab]").forEach(b => {
-  b.onclick = () => switchTab(b.dataset.tab);
+document.querySelectorAll("[data-tab]").forEach(button => {
+  button.onclick = () => switchTab(button.dataset.tab);
 });
 
 $("familyButton").onclick = () => {
-  if (user && $("welcome").hidden) switchTab("family");
-  else notify("Сначала введите имя и подключитесь.");
+  if (user && $("welcome").hidden) {
+    switchTab("family");
+  } else {
+    notify("Сначала введите имя и подключитесь.");
+  }
 };
 
 $("closeEditor").onclick = () => {
-  if (!busy) $("editor").close();
-  else notify("Дождитесь сохранения.");
+  if (!busy) {
+    $("editor").close();
+  } else {
+    notify("Дождитесь сохранения.");
+  }
 };
 
-$("editor").addEventListener("cancel", e => {
-  if (busy) e.preventDefault();
+$("editor").addEventListener("cancel", event => {
+  if (busy) event.preventDefault();
 });
 
 $("closeText").onclick = () => {
@@ -1434,7 +1724,9 @@ $("closeText").onclick = () => {
 $("yes").onclick = () => {
   const action = onConfirm;
   onConfirm = null;
+
   $("confirmDialog").close();
+
   if (action) action();
 };
 
@@ -1461,30 +1753,35 @@ $("saveName").onclick = () => {
 
   user.name = name;
   remember();
+
   notify("Имя сохранено для новых записей.");
 };
 
 $("reconnect").onclick = () => {
-  if (!busy) connect(user);
-  else notify("Дождитесь сохранения.");
+  if (!busy) {
+    connect(user);
+  } else {
+    notify("Дождитесь сохранения.");
+  }
 };
 
 $("invite").onclick = () => {
   const url = new URL(location.href);
   url.hash = "r=" + user.room;
 
-  const hosted = location.protocol === "https:"
-    && !["localhost", "127.0.0.1", "::1"].includes(location.hostname)
-    && !location.hostname.endsWith(".local");
+  const hosted =
+    location.protocol === "https:" &&
+    !["localhost", "127.0.0.1", "::1"].includes(location.hostname) &&
+    !location.hostname.endsWith(".local");
 
   showText(
     "Ссылка-приглашение",
     hosted
-      ? "Отправьте ссылку жене или мужу. Любой, у кого она есть, " +
-        "получит доступ к семейным записям."
-      : "Это локальный предпросмотр. Сначала разместите index.html " +
-        "на сайте с HTTPS. Сохраните код пространства: " +
-        "он позволит перенести текущие записи.",
+      ? "Отправьте ссылку жене или мужу. Любой, у кого она есть, "
+        + "получит доступ к семейным записям."
+      : "Это локальный предпросмотр. Сначала разместите index.html "
+        + "на сайте с HTTPS. Сохраните код пространства: "
+        + "он позволит перенести текущие записи.",
     hosted ? url.href : user.room,
     "Выделить текст",
     selectText
@@ -1497,17 +1794,19 @@ $("export").onclick = () => {
     return;
   }
 
+  const backup = {
+    app: "vmeste",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    ledger: entries().map(({ id, ...record }) => record),
+    items: purchases().map(({ id, ...record }) => record)
+  };
+
   showText(
     "Резервная копия",
-    "Скопируйте весь текст в отдельную заметку или файл. " +
-      "Он содержит ваши финансовые записи.",
-    JSON.stringify({
-      app: "vmeste",
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      ledger: entries().map(({ id, ...r }) => r),
-      items: purchases().map(({ id, ...r }) => r)
-    }, null, 2),
+    "Скопируйте весь текст в отдельную заметку или файл. "
+      + "Он содержит ваши финансовые записи.",
+    JSON.stringify(backup, null, 2),
     "Выделить текст",
     selectText
   );
@@ -1518,23 +1817,25 @@ $("import").onclick = () => {
 
   showText(
     "Импорт записей",
-    "Вставьте JSON-копию. Записи добавятся к существующим. " +
-      "Повторный импорт создаёт дубликаты.",
+    "Вставьте JSON-копию. Записи добавятся к существующим. "
+      + "Повторный импорт создаёт дубликаты.",
     "",
     "Проверить копию",
     () => {
       try {
         const text = $("textValue").value;
 
-        if (text.length > 5000000) throw Error("Максимум 5 МБ.");
+        if (text.length > 5000000) {
+          throw Error("Максимум 5 МБ.");
+        }
 
         const data = validateImport(JSON.parse(text));
 
         ask(
           "Добавить записи?",
-          `Операций: ${data.ledger.length}, ` +
-          `покупок: ${data.items.length}. ` +
-          "Существующие записи сохранятся.",
+          `Операций: ${data.ledger.length}, `
+            + `покупок: ${data.items.length}. `
+            + "Существующие записи сохранятся.",
           async () => {
             const updates = {};
 
@@ -1553,17 +1854,19 @@ $("import").onclick = () => {
               return;
             }
 
-            if (await write(
+            const imported = await write(
               () => api.update(api.ref(db, path), updates)
-            )) {
+            );
+
+            if (imported) {
               $("textDialog").close();
               notify("Записи добавлены.");
             }
           }
         );
 
-      } catch (e) {
-        $("textError").textContent = e.message;
+      } catch (error) {
+        $("textError").textContent = error.message;
       }
     },
     false
@@ -1578,13 +1881,17 @@ $("leave").onclick = () => {
 
   ask(
     "Выйти на этом телефоне?",
-    "Записи останутся в Firebase. Для возвращения понадобится " +
-      "приглашение. Сохраните его перед выходом.",
+    "Записи останутся в Firebase. Для возвращения понадобится "
+      + "приглашение. Сохраните его перед выходом.",
     () => {
-      try { localStorage.removeItem(KEY); } catch (e) {}
+      try {
+        localStorage.removeItem(KEY);
+      } catch (error) {}
 
       history.replaceState(
-        null, "", location.pathname + location.search
+        null,
+        "",
+        location.pathname + location.search
       );
 
       location.reload();
@@ -1605,13 +1912,20 @@ function start() {
         saved.name.length <= 30 &&
         /^[a-f0-9]{32}$/.test(saved.room)
       ) {
-        user = { name: saved.name, room: saved.room };
+        user = {
+          name: saved.name,
+          room: saved.room
+        };
+
         $("name").value = user.name;
       }
     }
 
-  } catch (e) {
-    notice("Сохранённый вход недоступен. Можно войти по приглашению.");
+  } catch (error) {
+    notice(
+      "Сохранённый вход недоступен. "
+        + "Можно войти по приглашению."
+    );
   }
 
   if (location.hash) {
@@ -1620,10 +1934,11 @@ function start() {
         invitedRoom = location.hash.slice(3);
 
       } else if (location.hash.startsWith("#join=")) {
-        const s = location.hash.slice(6)
-          .replaceAll("-", "+").replaceAll("_", "/");
+        const encoded = location.hash.slice(6)
+          .replaceAll("-", "+")
+          .replaceAll("_", "/");
 
-        const invite = JSON.parse(atob(s));
+        const invite = JSON.parse(atob(encoded));
 
         if (invite.config?.projectId !== CONFIG.projectId) {
           throw Error();
@@ -1635,19 +1950,26 @@ function start() {
         throw Error();
       }
 
-      if (!/^[a-f0-9]{32}$/.test(invitedRoom)) throw Error();
+      if (!/^[a-f0-9]{32}$/.test(invitedRoom)) {
+        throw Error();
+      }
 
-      $("welcomeTitle").textContent = "Вас пригласили в семью";
+      $("welcomeTitle").textContent =
+        "Вас пригласили в семью";
+
       $("welcomeText").textContent =
         "Введите своё имя. Общие записи появятся после подключения.";
+
       $("start").textContent = "Присоединиться";
 
       return;
 
-    } catch (e) {
+    } catch (error) {
       notice(
-        "Приглашение повреждено. Попросите отправить ссылку заново."
+        "Приглашение повреждено. "
+          + "Попросите отправить ссылку заново."
       );
+
       $("start").disabled = true;
       return;
     }
@@ -1659,4 +1981,4 @@ function start() {
 start();
 </script>
 </body>
-</html>
+      </html>
